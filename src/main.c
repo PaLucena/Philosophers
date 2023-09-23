@@ -6,23 +6,34 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/21 17:34:47 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/23 18:52:01 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+bool	check_args(int ac, char **av)
+{
+	int	i;
+
+	i = -1;
+	while (av[++i])
+	{
+		if (!ft_is_number(av[i]))
+			return (false);
+	}
+	if (av[0] <= 0)
+		return (false);
+	return (true);
+}
+
 int	main(int ac, char **av)
 {
-	bool	d;
-	
-	d = false;
-	if (ac != 5)
+	if (ac == 5 || ac == 6)
 	{
-		if (ac != 6)
-			d = ft_error(1);
+		if (!check_args(ac, av))
+			return (1);
+		filosofar(ac, av);
 	}
-	if (!d)
-		programa;
 	return (0);
 }

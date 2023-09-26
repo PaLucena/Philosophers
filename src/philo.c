@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:01:59 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 16:08:59 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:05:47 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_cave	*init_cave(int ac, char **av)
 		return (NULL);
 	cueva->vivos = true;
 	cueva->n_philo = ft_atoi(av[1]);
-	cueva->time_to_die = (ft_atoi(av[2]) * 1000);
+	cueva->time_to_die = (ft_atoi(av[2]));
 	cueva->time_to_eat = (ft_atoi(av[3]) * 1000);
 	cueva->time_to_sleep = (ft_atoi(av[4]) * 1000);
 	if (ac == 6)
@@ -65,19 +65,20 @@ void	init_philo(t_cave *cueva)
 void	ft_life(t_cave *cueva)
 {
 	int		i;
+	int		x;
 
 	i = -1;
 	while (++i < cueva->n_philo)
 		pthread_create(&cueva->philo_id[i], NULL, cycle, &cueva->philos[i]);
 	while (cueva->vivos)
 	{
-		i = check_status(cueva);
-		if (i != 0)
+		x = check_status(cueva);
+		if (x != 0)
 			cueva->vivos = false;
 	}
-	if (i > 0)
-		printf("%ld %i has died\n", (ft_time() - cueva->set_time), i);
 	i = -1;
+	if (x > 0)
+		printf("%ld %i died\n", (ft_time() - cueva->set_time), x);
 	while (++i < cueva->n_philo)
 		pthread_join(cueva->philo_id[i], NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 16:14:25 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:02:36 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,4 @@ bool	check_status(t_cave *cueva)
 			return (-1);
 	}
 	return (0);
-	// comprobar si algun filosofo ha terminado / cuantas veces han comido
 }

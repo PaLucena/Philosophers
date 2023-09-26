@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 08:42:13 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/26 08:47:21 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ bool	check_args(char **av)
 {
 	int	i;
 
-	i = -1;
-	while (av[++i])
+	i = 0;
+	while (av[++i] != NULL)
 	{
 		if (!ft_is_number(av[i]))
 			return (false);
 	}
-	if (ft_atoi(av[0]) <= 0)
+	if (ft_atoi(av[1]) <= 0)
 		return (false);
 	return (true);
 }

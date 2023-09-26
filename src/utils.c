@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 08:41:37 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:14:25 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,33 @@ bool	ft_is_number(char *str)
 			return (false);
 	}
 	return (true);
+}
+
+bool	check_status(t_cave *cueva)
+{
+	long	curr_time;
+	bool	full;
+	int		i;
+
+	i = -1;
+	curr_time = ft_time() - cueva->set_time;
+	while (++i < cueva->n_philo)
+	{
+		if (curr_time - cueva->philos[i].last_meal >= cueva->time_to_die)
+			return (i + 1);
+	}
+	if (cueva->n_of_meals != -1)
+	{
+		i = -1;
+		full = true;
+		while (++i < cueva->n_philo)
+		{
+			if (cueva->philos[i].meals < cueva->n_of_meals)
+				full = false;
+		}
+		if (full)
+			return (-1);
+	}
+	return (0);
+	// comprobar si algun filosofo ha terminado / cuantas veces han comido
 }

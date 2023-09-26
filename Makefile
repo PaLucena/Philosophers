@@ -2,10 +2,11 @@ NAME = philo
 
 CC = gcc
 FLAGS = -g -Wall -Wextra -Werror
+A =  -fsanitize=thread -g3
 RM = rm -rf
 
 SRC_PATH = src/
-SRC = cycle.c main.c philo.c utils.c
+SRC = actions.c cycle.c main.c philo.c utils.c
 OBJ_PATH = objs/
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 
@@ -24,7 +25,7 @@ RESET	:= \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@ gcc $(FLAGS) $(OBJ) -o $(NAME)
+	@ gcc $(FLAGS) $(A) $(OBJ) -o $(NAME)
 	@ echo "\n\t\t$(GREEN)$(BOLD)----Philosophers compiled----\n$(RESET)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c

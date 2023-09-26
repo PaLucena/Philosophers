@@ -1,48 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 08:41:37 by palucena         ###   ########.fr       */
+/*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
+/*   Updated: 2023/09/25 17:26:55 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-bool	ft_error(int a)
+void	*cycle(void *param)
 {
-	if (a == 1)
-		write(1, "\nError\n", 7);
-	return (true);
-}
+	t_philo	*plato;
 
-int	ft_atoi(const char *str)
-{
-	int		i;
-	long	nb;
-
-	i = 0;
-	nb = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		nb = nb * 10 + (str[i] - '0');
-		i++;
-	}
-	return (nb);
-}
-
-bool	ft_is_number(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			return (false);
-	}
-	return (true);
+	plato = (t_philo *)param;
+	printf("Entró: %i\n", plato->index);
+	/* pthread_mutex_lock(plato->fork_l);
+	pthread_mutex_lock(plato->fork_r);
+	usleep(plato->cave->time_to_eat * 1000);
+	pthread_mutex_unlock(plato->fork_l);
+	pthread_mutex_unlock(plato->fork_r); */
+	return (NULL);
 }

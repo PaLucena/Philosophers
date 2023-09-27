@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 16:02:34 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:45:02 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 
-struct s_philo;
+struct	s_philo;
 
 typedef struct s_cave {
 	bool			vivos;
@@ -35,7 +35,6 @@ typedef struct s_cave {
 	long			time_to_sleep;
 	int				n_of_meals;
 	long			set_time;
-	
 }	t_cave;
 
 typedef struct s_philo {
@@ -47,14 +46,14 @@ typedef struct s_philo {
 	int				meals;
 }	t_philo;
 
-/*		actions.c	*/
-int	ft_eat(t_philo *plato);
-int	ft_sleep(t_philo *plato);
-int	ft_think(t_philo *plato);
-
 /*		cycle.c		*/
 long	ft_time(void);
+void	print_status(t_cave *cave, int index, char status);
 void	*cycle(void *param);
+
+/*		init.c		*/
+t_cave	*init_cave(int ac, char **av);
+void	init_philo(t_cave *cueva);
 
 /*		philo.c		*/
 void	filosofar(int ac, char **av);
@@ -63,6 +62,7 @@ void	filosofar(int ac, char **av);
 bool	ft_error(int a);
 int		ft_atoi(const char *str);
 bool	ft_is_number(char *str);
-bool	check_status(t_cave *cueva);
+void	ft_usleep(int time);
+int		check_status(t_cave *cueva);
 
 #endif

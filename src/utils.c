@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/26 18:02:36 by palucena         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:21:20 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,19 @@ bool	ft_is_number(char *str)
 	return (true);
 }
 
-bool	check_status(t_cave *cueva)
+void	ft_usleep(int time)
+{
+	long	end;
+
+	end = ft_time() + (time);
+	while (1)
+	{
+		if (end == ft_time())
+			break ;
+	}
+}
+
+int	check_status(t_cave *cueva)
 {
 	long	curr_time;
 	bool	full;
@@ -58,7 +70,7 @@ bool	check_status(t_cave *cueva)
 	while (++i < cueva->n_philo)
 	{
 		if (curr_time - cueva->philos[i].last_meal >= cueva->time_to_die)
-			return (i + 1);
+			return (cueva->philos[i].index);
 	}
 	if (cueva->n_of_meals != -1)
 	{

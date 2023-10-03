@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/03 19:36:10 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:27:20 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,14 @@ void	mufasa(t_philo *plato)
 
 void	one_philo(t_philo *plato)
 {
-	pthread_mutex_lock(plato->fork_r);
-	print_status(plato->cave, plato->index, 'f');
-	pthread_mutex_unlock(plato->fork_r);
+	if (plato->cave->max_meals == 0)
+		return ;
+	else
+	{
+		pthread_mutex_lock(plato->fork_r);
+		print_status(plato->cave, plato->index, 'f');
+		pthread_mutex_unlock(plato->fork_r);
+	}
 }
 
 void	*cycle(void *param)
@@ -87,13 +92,11 @@ void	*cycle(void *param)
 	pthread_mutex_lock(plato->cave->meal);
 	plato->last_meal = get_time() - plato->cave->set_time;
 	pthread_mutex_unlock(plato->cave->meal);
-	if (plato->cave->n_philo == 1)
+	if (plato->cave->n_philo == 1 || plato->cave->max_meals == 0)
 		one_philo(plato);
 	else
 	{
-		if (plato->index % 2 == 0)
-			print_status(plato->cave, plato->index, 't');
-		else if (plato->index == plato->cave->n_philo)
+		if (plato->index % 2 == 0 || plato->index == plato->cave->n_philo)
 			print_status(plato->cave, plato->index, 't');
 		while (1)
 		{

@@ -1,12 +1,12 @@
 NAME = philo
 
 CC = gcc
-FLAGS = -g -Wall -Wextra -Werror
-A =  -fsanitize=thread -g3
+FLAGS = -Wall -Wextra -Werror
+# -fsanitize=thread -g3
 RM = rm -rf
 
 SRC_PATH = src/
-SRC = cycle.c init.c main.c philo.c utils.c
+SRC = check.c cycle.c init.c main.c philo.c utils.c
 OBJ_PATH = objs/
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 

@@ -6,20 +6,13 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/09/27 19:21:20 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:56:43 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-bool	ft_error(int a)
-{
-	if (a == 1)
-		write(1, "\nError\n", 7);
-	return (true);
-}
-
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
 	int		i;
 	long	nb;
@@ -47,42 +40,22 @@ bool	ft_is_number(char *str)
 	return (true);
 }
 
+long	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
 void	ft_usleep(int time)
 {
 	long	end;
 
-	end = ft_time() + (time);
+	end = get_time() + (time);
 	while (1)
 	{
-		if (end == ft_time())
+		if (end == get_time())
 			break ;
 	}
-}
-
-int	check_status(t_cave *cueva)
-{
-	long	curr_time;
-	bool	full;
-	int		i;
-
-	i = -1;
-	curr_time = ft_time() - cueva->set_time;
-	while (++i < cueva->n_philo)
-	{
-		if (curr_time - cueva->philos[i].last_meal >= cueva->time_to_die)
-			return (cueva->philos[i].index);
-	}
-	if (cueva->n_of_meals != -1)
-	{
-		i = -1;
-		full = true;
-		while (++i < cueva->n_philo)
-		{
-			if (cueva->philos[i].meals < cueva->n_of_meals)
-				full = false;
-		}
-		if (full)
-			return (-1);
-	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/03 18:40:41 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/04 20:51:33 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_philo {
 
 /*		check.c		*/
 bool	check_args(char **av, int ac);
-int		check_status(t_cave *cueva);
+int		check_status(t_cave *cave);
 
 /*		cycle.c		*/
 void	print_status(t_cave *cave, int index, char status);
@@ -59,10 +59,11 @@ void	*cycle(void *param);
 
 /*		init.c		*/
 t_cave	*init_cave(int ac, char **av);
-void	init_philo(t_cave *cueva);
+void	init_philo(t_cave *cave);
 
 /*		philo.c		*/
-void	filosofar(int ac, char **av);
+void	ft_life(t_cave *cave);
+void	ft_afterlife(t_cave *cave);
 
 /*		utils.c		*/
 long	ft_atol(const char *str);

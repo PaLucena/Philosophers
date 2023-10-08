@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/04 20:51:33 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/09 01:06:00 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ typedef struct s_cave {
 	pthread_mutex_t	*meal;
 	struct s_philo	*philos;
 	int				n_philo;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
+	long			t_die;
+	long			t_eat;
+	long			t_sleep;
 	int				max_meals;
-	long			set_time;
+	long			t_start;
 }	t_cave;
 
 typedef struct s_philo {

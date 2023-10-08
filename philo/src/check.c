@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 19:41:14 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/04 20:51:33 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/09 01:06:00 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	ft_starve(t_cave *cave)
 	int		i;
 
 	i = -1;
-	end_time = get_time() - cave->set_time;
+	end_time = get_time() - cave->t_start;
 	while (++i < cave->n_philo)
 	{
 		pthread_mutex_lock(cave->meal);
-		if (end_time - cave->philos[i].last_meal >= cave->time_to_die)
+		if (end_time - cave->philos[i].last_meal >= cave->t_die)
 		{
 			pthread_mutex_unlock(cave->meal);
 			return (cave->philos[i].index);

@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/04 20:51:33 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/09 01:06:00 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_cave	*init_cave(int ac, char **av)
 	if (!cave)
 		return (NULL);
 	cave->n_philo = ft_atol(av[1]);
-	cave->time_to_die = (ft_atol(av[2]));
-	cave->time_to_eat = (ft_atol(av[3]));
-	cave->time_to_sleep = (ft_atol(av[4]));
+	cave->t_die = (ft_atol(av[2]));
+	cave->t_eat = (ft_atol(av[3]));
+	cave->t_sleep = (ft_atol(av[4]));
 	if (ac == 6)
 		cave->max_meals = ft_atol(av[5]);
 	else
@@ -37,7 +37,7 @@ t_cave	*init_cave(int ac, char **av)
 		return (NULL);
 	cave->vivos = true;
 	cave->all_eaten = false;
-	cave->set_time = get_time();
+	cave->t_start = get_time();
 	return (cave);
 }
 

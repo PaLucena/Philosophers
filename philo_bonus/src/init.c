@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/04 23:53:51 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/09 01:06:00 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,14 @@
 
 void	init_lights(t_cave *cave)
 {
-	int	i;
-
 	sem_unlink("all_eaten");
-	cave->all_eaten = sem_open("all_eaten", O_CREAT, 0600, cave->n_philo);
-	i = 0;
-	while (++i <= cave->n_philo)
-	{
-		sem_unlink(ft_itoa(i));
-		cave->philos[i].sem_death = sem_open(ft_itoa(i), O_CREAT, 0600, 1);
-		sem_wait(cave->all_eaten);
-	}
+	cave->all_eaten = sem_open("all_eaten", O_CREAT, 0600, 0);
+	sem_unlink("all_finished");
+	cave->all_finished = sem_open("all_finished", O_CREAT, 0600, 0);
 	sem_unlink("alive");
 	cave->alive = sem_open("alive", O_CREAT, 0600, 0);
+	sem_unlink("death");
+	cave->race_death = sem_open("death", O_CREAT, 0600, 1);
 	sem_unlink("forks");
 	cave->forks = sem_open("forks", O_CREAT, 0600, cave->n_philo);
 }
@@ -39,9 +34,9 @@ t_cave	*init_cave(int ac, char **av)
 	if (!cave)
 		return (NULL);
 	cave->n_philo = ft_atol(av[1]);
-	cave->time_to_die = (ft_atol(av[2]));
-	cave->time_to_eat = (ft_atol(av[3]));
-	cave->time_to_sleep = (ft_atol(av[4]));
+	cave->t_die = (ft_atol(av[2]));
+	cave->t_eat = (ft_atol(av[3]));
+	cave->t_sleep = (ft_atol(av[4]));
 	if (ac == 6)
 		cave->max_meals = ft_atol(av[5]);
 	else
@@ -51,7 +46,6 @@ t_cave	*init_cave(int ac, char **av)
 	if (!cave->philo_id|| !cave->philos)
 		return (NULL);
 	init_lights(cave);
-	cave->set_time = get_time();
 	return (cave);
 }
 
@@ -67,3 +61,5 @@ void	init_philo(t_cave *cave)
 		cave->philos[i].cave = cave;
 	}
 }
+
+

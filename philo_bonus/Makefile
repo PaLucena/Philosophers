@@ -5,7 +5,7 @@ FLAGS = -Wall -Wextra -Werror -fsanitize=thread -g3
 RM = rm -rf
 
 SRC_PATH = src/
-SRC = init.c main.c philo.c routine.c utils.c utils2.c
+SRC = init.c main.c philo.c routine.c utils.c
 OBJ_PATH = objs/
 OBJ = $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 

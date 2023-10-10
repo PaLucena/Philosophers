@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/09 01:06:00 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:30:50 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,29 @@ typedef struct s_philo {
 	int				meals;
 }	t_philo;
 
-/*		check.c		*/
+/*------check.c-----*/
 bool	check_args(char **av, int ac);
 int		check_status(t_cave *cave);
 
-/*		cycle.c		*/
-void	print_status(t_cave *cave, int index, char status);
+/*------cycle.c-----*/
 void	*cycle(void *param);
 
-/*		init.c		*/
+/*------forks.c-----*/
+void	pick_f(t_philo *plato);
+void	drop_f(t_philo *plato);
+
+/*------init.c------*/
 t_cave	*init_cave(int ac, char **av);
 void	init_philo(t_cave *cave);
 
-/*		philo.c		*/
+/*------philo.c-----*/
 void	ft_life(t_cave *cave);
 void	ft_afterlife(t_cave *cave);
 
-/*		utils.c		*/
+/*------print.c-----*/
+void	print_status(t_cave *cave, int index, char s);
+
+/*------utils.c-----*/
 long	ft_atol(const char *str);
 bool	ft_is_number(char *str);
 long	get_time(void);

@@ -6,93 +6,96 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/09 01:06:00 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:12:20 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
-void	*philo_death(void *param)
+void	single_philo(t_philo *ph)
 {
-	t_philo	*plato;
+	if (ph->cave->max_meals == 0)
+		return ;
+	sem_wait(ph->cave->forks);
+	print_status(ph->cave, ph->index, 'f');
+	ft_usleep(ph->cave->t_die);
+	print_status(ph->cave, ph->index, 'd');
+}
 
-	plato = (t_philo *)param;
-	while (42)
+void	*ph_day(void *param)
+{
+	t_philo	*ph;
+
+	ph = (t_philo *)param;
+	// En que orden empiezan a comer??
+	while (!ph->finished)
 	{
-		sem_wait(plato->cave->race_death);
-		if (get_time() - plato->last_meal >= plato->cave->t_die)
+		if (ph->cave->max_meals >= 0 && ph->meals >= ph->cave->max_meals)
 		{
-			printf("Tiempo sin comer: %ld\n", get_time() - plato->last_meal);
-			printf("%ld %i died\n", get_time() - plato->cave->t_start,
-				plato->index);
-			sem_post(plato->cave->alive);
+			ph->finished = true;
 			break ;
 		}
-		sem_post(plato->cave->race_death);
+		r_eat(ph);
+		r_sleep(ph);
+		r_think(ph);
+		printf("\n%i\n\n", ph->index);
 	}
-	sem_post(plato->cave->race_death);
+//	printf("%i Cierra h3\n", ph->index);
 	return (NULL);
 }
 
-void	r_think(t_philo *plato)
+void	*ft_own_death(void *param)
 {
-	printf("%ld %i is thinking\n", get_time() - plato->cave->t_start,
-		plato->index);
-}
+	t_philo	*ph;
 
-void	r_sleep(t_philo *plato)
-{
-	printf("%ld %i is sleeping\n", get_time() - plato->cave->t_start,
-		plato->index);
-}
-
-void	r_eat(t_philo *plato)
-{
-	sem_wait(plato->cave->forks);
-	printf("%ld %i has taken a fork\n", get_time() - plato->cave->t_start,
-		plato->index);
-	sem_wait(plato->cave->forks);
-	printf("%ld %i has taken a fork\n", get_time() - plato->cave->t_start,
-		plato->index);
-	printf("%ld %i is eating\n", get_time() - plato->cave->t_start,
-		plato->index);
-	sem_wait(plato->cave->race_death);
-	plato->last_meal = get_time();
-	sem_post(plato->cave->race_death);
-	plato->meals++;
-	ft_usleep(plato->cave->t_eat);
-	sem_post(plato->cave->forks);
-	sem_post(plato->cave->forks);
-}
-
-void	*routine(void *param)
-{
-	t_philo *plato;
-
-	plato = (t_philo *)param;
-	sem_wait(plato->cave->race_death);
-	sem_post(plato->cave->race_death);
-	if (plato->index % 2 == 0)
-		r_think(plato);
-	//printf("%ld ------- Despues\n", get_time() - plato->cave->t_start);
-	while (42)
+	ph = (t_philo *)param;
+	while (!ph->finished)
 	{
-		r_eat(plato);
-		r_sleep(plato);
-		r_think(plato);
+		if (get_time() - ph->last_meal >= ph->cave->t_die)
+		{
+			print_status(ph->cave, ph->index, 'd');
+			break ;
+		}
 	}
+//	printf("%i Cierra h1\n", ph->index);
 	return (NULL);
 }
 
-void	ft_philo(t_philo *plato)
+void	*ft_other_death(void *param)
 {
-	plato->last_meal = get_time();
-	pthread_create(&plato->self_death, NULL, philo_death, plato);
-	pthread_create(&plato->routine, NULL, routine, plato);
-	sem_wait(plato->cave->alive);
-	sem_post(plato->cave->alive);
-	printf("%ld ------- Despues\n", get_time() - plato->cave->t_start);
-	pthread_join(plato->self_death, NULL);
-	pthread_join(plato->routine, NULL);
+	t_philo	*ph;
+
+	ph = (t_philo *)param;
+	sem_wait(ph->cave->alive);
+	sem_post(ph->cave->alive);
+	ph->finished = true;
+//	printf("%i Cierra h2\n", ph->index);
+	return (NULL);
+}
+
+void	routine(t_philo *ph)
+{
+//	printf("%i Start ----------------------------------\n", ph->index);
+	ph->last_meal = get_time();
+	if (ph->cave->n_philo == 1)
+	{
+		single_philo(ph);
+		return ;
+	}
+	pthread_create(&ph->ph_day, NULL, ph_day, ph);
+	pthread_create(&ph->own_death, NULL, ft_own_death, ph);
+	pthread_create(&ph->other_death, NULL, ft_other_death, ph);
+	/* while (1)
+	{
+		if (ph->finished)
+			break ;
+	} */
+	sem_wait(ph->cave->alive);
+	sem_post(ph->cave->alive);
+	pthread_join(ph->ph_day, NULL);
+	pthread_join(ph->own_death, NULL);
+	pthread_join(ph->other_death, NULL);
+	sem_post(ph->cave->waitpid);
+	printf("sale %i\n", ph->index);
 	return ;
 }

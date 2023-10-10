@@ -6,11 +6,11 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/08 23:54:52 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:38:17 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 long	ft_atol(const char *str)
 {
@@ -48,11 +48,11 @@ long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void	ft_usleep(int time)
+void	ft_usleep(long time)
 {
 	long	end;
 
-	end = get_time() + (time);
+	end = get_time() + time;
 	while (1)
 	{
 		if (end == get_time())

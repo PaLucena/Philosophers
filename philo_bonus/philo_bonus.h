@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/09 01:03:11 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:38:54 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
-#include <fcntl.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -23,7 +23,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <semaphore.h>
-#include <signal.h>
+# include <signal.h>
 
 struct	s_philo;
 
@@ -32,41 +32,51 @@ typedef struct s_cave {
 	long			t_die;
 	long			t_eat;
 	long			t_sleep;
-	pid_t			*pid;
-	sem_t			*alive;
-	sem_t			*race_death;
-	sem_t			*all_eaten;
-	sem_t			*all_finished;
-	sem_t			*forks;
-	pthread_t		food;
 	int				max_meals;
-	struct s_philo	*philos;
+	pid_t			*pid;
+	struct s_philo	*ph;
+	sem_t			*alive;
+	sem_t			*forks;
+	sem_t			*waitpid;
+	sem_t			*race_death;
 }	t_cave;
 
 typedef struct s_philo {
-	int				index;
-	t_cave			*cave;
-	long			t_start;
-	long			last_meal;
-	int				meals;
-	pthread_t		self_death;
-	pthread_t		routine;
+	int			index;
+	bool		finished;
+	t_cave		*cave;
+	long		t_start;
+	long		last_meal;
+	int			meals;
+	pthread_t	ph_day;
+	pthread_t	own_death;
+	pthread_t	other_death;
 }	t_philo;
 
-/*		cycle.c		*/
-void	ft_philo(t_philo *plato);
+/*------init.c---------*/
+t_cave	*init_struct(int argc, char **argv);
 
-/*		init.c		*/
-t_cave	*init_cave(int ac, char **av);
-void	init_philo(t_cave *cave);
+/*------life.c---------*/
+void	ph_life(t_cave *c);
 
-/*		philo.c		*/
-void	filosofar(int ac, char **av);
+/*------routine.c------*/
+void	routine(t_philo *ph);
 
-/*		utils.c		*/
+/*------day.c----------*/
+void	r_think(t_philo *ph);
+void	r_sleep(t_philo *ph);
+void	r_eat(t_philo *ph);
+
+/*------print.c--------*/
+void	print_status(t_cave *c, int i, char a);
+
+/*------death.c--------*/
+void	ph_death(t_cave *c);
+
+/*------utils.c--------*/
 long	ft_atol(const char *str);
 bool	ft_is_number(char *str);
 long	get_time(void);
-void	ft_usleep(int time);
+void	ft_usleep(long time);
 
 #endif

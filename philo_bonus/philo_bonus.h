@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/10 16:38:54 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:59:28 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_cave {
 	sem_t			*forks;
 	sem_t			*waitpid;
 	sem_t			*race_death;
+	sem_t			*write;
 }	t_cave;
 
 typedef struct s_philo {

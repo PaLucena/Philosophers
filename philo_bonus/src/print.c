@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 12:19:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/10 16:34:08 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:02:14 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ char	*sel_a(char a)
 
 void	print_status(t_cave *c, int i, char a)
 {
-	if (!c->ph[i - 1].finished)
+	sem_wait(c->write);
+	printf("%ld %i %s\n", get_time() - c->ph[i - 1].t_start, i, sel_a(a));
+	if (a == 'd')
 	{
-		printf("%ld %i %s\n", get_time() - c->ph[i - 1].t_start, i, sel_a(a));
-		if (a == 'd')
-		{
-			c->ph[i + 1].finished = true;
-			sem_post(c->alive);
-		}
+		c->ph[i + 1].finished = true;
+		sem_post(c->alive);
 	}
+	else
+		sem_post(c->write);
 }

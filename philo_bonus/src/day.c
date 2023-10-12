@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:50:27 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/10 16:42:57 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:35:55 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ void	r_eat(t_philo *ph)
 	sem_wait(ph->cave->forks);
 	print_status(ph->cave, ph->index, 'f');
 	print_status(ph->cave, ph->index, 'e');
-//	sem_wait(ph->cave->race_death);
+	sem_wait(ph->cave->sem_meal);
 	ph->last_meal = get_time();
-//	printf("Ultima comida: %ld\n", ph->last_meal - ph->t_start);
-//	sem_post(ph->cave->race_death);
+	sem_post(ph->cave->sem_meal);
 	ph->meals++;
 	ft_usleep(ph->cave->t_eat);
 	sem_post(ph->cave->forks);

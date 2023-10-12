@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/11 14:59:28 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:38:14 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 struct	s_philo;
 
 typedef struct s_cave {
-	int				n_philo;
+	int				n_ph;
 	long			t_die;
 	long			t_eat;
 	long			t_sleep;
@@ -37,9 +37,9 @@ typedef struct s_cave {
 	struct s_philo	*ph;
 	sem_t			*alive;
 	sem_t			*forks;
-	sem_t			*waitpid;
-	sem_t			*race_death;
-	sem_t			*write;
+	sem_t			*all_full;
+	sem_t			*sem_meal;
+	sem_t			*sem_finish;
 }	t_cave;
 
 typedef struct s_philo {

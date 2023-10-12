@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/11 15:54:52 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:52:31 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,6 @@ int	main(int argc, char **argv)
 	c = init_struct(argc, argv);
 	ph_life(c);
 	i = 0;
-	while (++i <= c->n_philo)
-	{
-		sem_wait(c->waitpid);
-		printf("------------------------------\n");
-	}
 	ph_death(c);
 	return (0);
 }

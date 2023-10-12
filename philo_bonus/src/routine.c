@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/11 15:02:40 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:41:02 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,21 @@ void	*ph_day(void *param)
 	t_philo	*ph;
 
 	ph = (t_philo *)param;
-	// En que orden empiezan a comer??
-	while (!ph->finished)
+	if (ph->index > ph->cave->n_ph / 2)
+		print_status(ph->cave, ph->index, 't');
+	while (1)
 	{
-		if (ph->cave->max_meals >= 0 && ph->meals >= ph->cave->max_meals)
-		{
-			ph->finished = true;
+		sem_wait(ph->cave->sem_finish);
+		if (ph->finished)
 			break ;
-		}
+		sem_post(ph->cave->sem_finish);
+		if (ph->cave->max_meals >= 0 && ph->meals == ph->cave->max_meals)
+			sem_post(ph->cave->all_full);
 		r_eat(ph);
 		r_sleep(ph);
 		r_think(ph);
 	}
+	sem_post(ph->cave->sem_finish);
 	return (NULL);
 }
 
@@ -49,11 +52,19 @@ void	*ft_own_death(void *param)
 	ph = (t_philo *)param;
 	while (!ph->finished)
 	{
+		/* sem_wait(ph->cave->sem_finish);
+		if (ph->finished)
+			break ;
+		sem_post(ph->cave->sem_finish); */
+		sem_wait(ph->cave->sem_meal);
 		if (get_time() - ph->last_meal >= ph->cave->t_die)
 		{
 			print_status(ph->cave, ph->index, 'd');
+			sem_post(ph->cave->sem_meal);
 			break ;
 		}
+		else
+			sem_post(ph->cave->sem_meal);
 	}
 	return (NULL);
 }
@@ -65,17 +76,20 @@ void	*ft_other_death(void *param)
 	ph = (t_philo *)param;
 	sem_wait(ph->cave->alive);
 	sem_post(ph->cave->alive);
+	sem_wait(ph->cave->sem_finish);
 	ph->finished = true;
+	sem_post(ph->cave->sem_finish);
 	return (NULL);
 }
 
 void	routine(t_philo *ph)
 {
 	ph->last_meal = get_time();
-	if (ph->cave->n_philo == 1)
+	if (ph->cave->n_ph == 1 || ph->cave->max_meals == 0)
 	{
 		single_philo(ph);
-		return ;
+		sem_post(ph->cave->all_full);
+		exit(0);
 	}
 	pthread_create(&ph->ph_day, NULL, ph_day, ph);
 	pthread_create(&ph->own_death, NULL, ft_own_death, ph);
@@ -85,7 +99,7 @@ void	routine(t_philo *ph)
 	pthread_join(ph->ph_day, NULL);
 	pthread_join(ph->own_death, NULL);
 	pthread_join(ph->other_death, NULL);
-	printf("el filosofo %i ha salido\n", ph->index);
-	sem_post(ph->cave->waitpid);
+	//printf("el filosofo %i ha salido\n", ph->index);
+	sem_post(ph->cave->all_full);
 	exit(0);
 }

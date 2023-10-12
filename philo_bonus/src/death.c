@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:36:18 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/11 15:53:09 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:52:41 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@
 void	ph_death(t_cave *c)
 {
 	int	i;
-	int status;
+	//int status;
 
 	i = 0;
 	sem_close(c->alive);
 	sem_unlink("alive");
 	sem_close(c->forks);
 	sem_unlink("forks");
-	sem_close(c->waitpid);
-	sem_unlink("waitpid");
-	sem_close(c->race_death);
-	sem_unlink("race_death");
-	sem_close(c->write);
-	sem_unlink("write");
-	while (++i <= c->n_philo)
-		waitpid(c->pid[i], &status, 0);
+	sem_close(c->all_full);
+	sem_unlink("all_full");
+	sem_close(c->sem_meal);
+	sem_unlink("sem_meal");
+	sem_close(c->sem_finish);
+	sem_unlink("sem_finish");
+/* 	while (++i <= c->n_ph)
+		waitpid(c->pid[i], &status, 0); */
 	free(c->pid);
 	free(c->ph);
 	//free(c);

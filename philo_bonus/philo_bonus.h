@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/13 12:33:14 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:39:43 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,16 @@
 # include <semaphore.h>
 # include <signal.h>
 
-struct	s_philo;
-
 typedef struct s_cave {
-	int				n_ph;
-	long			t_die;
-	long			t_eat;
-	long			t_sleep;
-	int				max_meals;
-	pid_t			*pid;
-	struct s_philo	*ph;
-	sem_t			*alive;
-	sem_t			*forks;
-	sem_t			*all_full;
-	sem_t			*sem_meal;
-	sem_t			*sem_finish;
+	int		n_ph;
+	long	t_die;
+	long	t_eat;
+	long	t_sleep;
+	pid_t	*pid;
+	sem_t	*alive;
+	sem_t	*forks;
+	sem_t	*sem_meal;
+	sem_t	*sem_finish;
 }	t_cave;
 
 typedef struct s_philo {
@@ -48,19 +43,17 @@ typedef struct s_philo {
 	t_cave		*cave;
 	long		t_start;
 	long		t_last_meal;
-	int			meals;
-	pthread_t	ph_day;
-	pthread_t	some_death;
+	int			meals_left;
 }	t_philo;
 
 /*------init.c---------*/
-t_cave	*init_struct(int argc, char **argv);
+void	init_struct(t_cave *c, t_philo *ph, int argc, char **argv);
 
 /*------life.c---------*/
-void	ph_life(t_cave *c);
+void	ph_life(t_cave *c, t_philo *ph);
 
 /*------routine.c------*/
-void	routine(t_philo *ph);
+void	*routine(t_philo *ph);
 
 /*------day.c----------*/
 bool	ft_die(t_philo *ph);
@@ -69,9 +62,10 @@ void	r_sleep(t_philo *ph);
 void	r_eat(t_philo *ph);
 
 /*------print.c--------*/
-void	print_status(t_cave *c, int i, char a);
+void	print_status(t_philo *ph, char a);
 
 /*------death.c--------*/
+void	kill_them(t_cave *c);
 void	ph_death(t_cave *c);
 
 /*------utils.c--------*/

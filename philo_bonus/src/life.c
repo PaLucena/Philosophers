@@ -6,13 +6,13 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:01:59 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/12 17:30:08 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:41:46 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
-void	ph_life(t_cave *c)
+void	ph_life(t_cave *c, t_philo *ph)
 {
 	int	i;
 
@@ -22,16 +22,10 @@ void	ph_life(t_cave *c)
 		c->pid[i] = fork();
 		if (c->pid[i] == 0)
 		{
-			c->ph[i].t_start = get_time();
-			routine(&c->ph[i]);
+			ph->index = i + 1;
+			ph->t_start = get_time();
+			routine(ph);
 		}
 		i++;
-	}
-	if (c->max_meals >= 0)
-	{
-		i = 0;
-		while (++i <= c->n_ph)
-			sem_wait(c->all_full);
-		sem_post(c->alive);
 	}
 }

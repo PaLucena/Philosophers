@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/13 11:56:53 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:51:40 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ bool	check_args(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_cave	*c;
+	t_cave	c;
+	t_philo	ph;
 	int		i;
 	int		status;
 
@@ -49,15 +50,15 @@ int	main(int argc, char **argv)
 		printf("Error\n");
 		return (1);
 	}
-	c = init_struct(argc, argv);
-	ph_life(c);
+	init_struct(&c, &ph, argc, argv);
+	ph_life(&c, &ph);
 	i = -1;
-	while (++i < c->n_ph)
+	while (++i < c.n_ph)
 	{
 		waitpid(-1, &status, 0);
 		if (status != 0)
-			kill(c->pid[i], SIGKILL);
+			kill_them(&c);
 	}		
-	ph_death(c);
+	ph_death(&c);
 	return (0);
 }

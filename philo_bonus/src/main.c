@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/12 17:52:31 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:56:53 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv)
 {
 	t_cave	*c;
 	int		i;
+	int		status;
 
 	//atexit(ft_leaks);
 	if ((argc != 5 && argc != 6) || !check_args(argc, argv))
@@ -50,7 +51,13 @@ int	main(int argc, char **argv)
 	}
 	c = init_struct(argc, argv);
 	ph_life(c);
-	i = 0;
+	i = -1;
+	while (++i < c->n_ph)
+	{
+		waitpid(-1, &status, 0);
+		if (status != 0)
+			kill(c->pid[i], SIGKILL);
+	}		
 	ph_death(c);
 	return (0);
 }

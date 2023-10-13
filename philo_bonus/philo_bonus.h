@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/12 17:38:14 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:33:14 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,10 @@ typedef struct s_philo {
 	bool		finished;
 	t_cave		*cave;
 	long		t_start;
-	long		last_meal;
+	long		t_last_meal;
 	int			meals;
 	pthread_t	ph_day;
-	pthread_t	own_death;
-	pthread_t	other_death;
+	pthread_t	some_death;
 }	t_philo;
 
 /*------init.c---------*/
@@ -64,6 +63,7 @@ void	ph_life(t_cave *c);
 void	routine(t_philo *ph);
 
 /*------day.c----------*/
+bool	ft_die(t_philo *ph);
 void	r_think(t_philo *ph);
 void	r_sleep(t_philo *ph);
 void	r_eat(t_philo *ph);

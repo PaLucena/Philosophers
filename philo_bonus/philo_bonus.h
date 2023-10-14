@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/13 16:39:43 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:38:52 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@
 # include <signal.h>
 
 typedef struct s_cave {
+	long	t_t;
 	int		n_ph;
 	long	t_die;
 	long	t_eat;
 	long	t_sleep;
 	pid_t	*pid;
-	sem_t	*alive;
 	sem_t	*forks;
-	sem_t	*sem_meal;
-	sem_t	*sem_finish;
+	sem_t	*write;
 }	t_cave;
 
 typedef struct s_philo {
@@ -56,7 +55,7 @@ void	ph_life(t_cave *c, t_philo *ph);
 void	*routine(t_philo *ph);
 
 /*------day.c----------*/
-bool	ft_die(t_philo *ph);
+void	ft_die(t_philo *ph);
 void	r_think(t_philo *ph);
 void	r_sleep(t_philo *ph);
 void	r_eat(t_philo *ph);

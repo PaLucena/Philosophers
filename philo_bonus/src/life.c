@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:01:59 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/13 16:41:46 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/14 20:25:55 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ph_life(t_cave *c, t_philo *ph)
 	i = 0;
 	while (i < c->n_ph)
 	{
+		c->t_t = get_time();
 		c->pid[i] = fork();
 		if (c->pid[i] == 0)
 		{

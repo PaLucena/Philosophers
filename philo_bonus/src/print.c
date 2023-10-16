@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 12:19:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/14 20:39:29 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:36:48 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ char	*sel_a(char a)
 void	print_status(t_philo *ph, char a)
 {
 	sem_wait(ph->cave->write);
-	printf("%ld %i %s %ld\n", get_time() - ph->t_start, ph->index, sel_a(a), get_time() - ph->cave->t_t);
+	printf("%ld %i %s\n", get_time() - ph->t_start, ph->index, sel_a(a));
 	if (a == 'd')
-	{
-		printf("---------------------------Ya deberia parar\n");
 		exit (1);
-	}
-	sem_post(ph->cave->write);
+	else
+		sem_post(ph->cave->write);
 }

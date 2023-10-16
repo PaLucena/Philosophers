@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/14 20:30:43 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:31:23 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	single_philo(t_philo *ph)
 		exit (0);
 	sem_wait(ph->cave->forks);
 	print_status(ph, 'f');
-	ft_usleep(ph->cave->t_die);
+	ft_usleep(ph->cave->t_die, ph);
 	print_status(ph, 'd');
 }
 
@@ -41,6 +41,7 @@ void	ph_day(t_philo	*ph)
 
 void	*routine(t_philo *ph)
 {
+	sem_post(ph->cave->init);
 	ph->t_last_meal = get_time();
 	if (ph->cave->n_ph == 1)
 		single_philo(ph);

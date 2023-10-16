@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/14 20:43:50 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:45:38 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ bool	check_args(int argc, char **argv)
 	return (true);
 }
 
-/* void	ft_leaks(void)
-{
-	system("leaks -q philo_bonus");
-} */
-
 int	main(int argc, char **argv)
 {
 	t_cave	c;
@@ -44,7 +39,6 @@ int	main(int argc, char **argv)
 	int		i;
 	int		status;
 
-	//atexit(ft_leaks);
 	if ((argc != 5 && argc != 6) || !check_args(argc, argv))
 	{
 		printf("Error\n");
@@ -58,7 +52,7 @@ int	main(int argc, char **argv)
 		waitpid(-1, &status, 0);
 		if (status != 0)
 			kill_them(&c);
-	}		
+	}
 	ph_death(&c);
 	return (0);
 }

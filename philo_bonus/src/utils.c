@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/10 16:38:17 by palucena         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:11:06 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,14 @@ long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void	ft_usleep(long time)
+void	ft_usleep(long time, t_philo *ph)
 {
 	long	end;
 
 	end = get_time() + time;
 	while (1)
 	{
+		ft_die(ph);
 		if (end == get_time())
 			break ;
 	}

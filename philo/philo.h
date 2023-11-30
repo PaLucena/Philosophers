@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/09 12:30:50 by palucena         ###   ########.fr       */
+/*   Updated: 2023/11/30 19:11:05 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 
 struct	s_philo;
 
-typedef struct s_cave {
+typedef struct s_cave
+{
 	bool			vivos;
 	bool			all_eaten;
 	pthread_mutex_t	*life;
@@ -40,7 +41,8 @@ typedef struct s_cave {
 	long			t_start;
 }	t_cave;
 
-typedef struct s_philo {
+typedef struct s_philo
+{
 	int				index;
 	t_cave			*cave;
 	pthread_mutex_t	*fork_l;

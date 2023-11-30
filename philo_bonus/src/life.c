@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:01:59 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/16 22:36:30 by palucena         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:13:13 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ph_life(t_cave *c, t_philo *ph)
 		{
 			ph->index = i + 1;
 			ph->t_start = get_time();
-			routine(ph);
+			ft_philo(ph);
 		}
 		i++;
 	}

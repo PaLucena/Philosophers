@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/16 22:45:38 by palucena         ###   ########.fr       */
+/*   Updated: 2023/11/30 19:09:35 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 
 	if ((argc != 5 && argc != 6) || !check_args(argc, argv))
 	{
-		printf("Error\n");
+		printf("\033[31;1mError\n");
 		return (1);
 	}
 	init_struct(&c, &ph, argc, argv);

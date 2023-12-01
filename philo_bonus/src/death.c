@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:36:18 by palucena          #+#    #+#             */
-/*   Updated: 2023/11/30 17:16:29 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:22:26 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	ph_death(t_cave *c)
 	sem_unlink("write");
 	sem_close(c->init);
 	sem_unlink("init");
+	sem_close(c->time);
+	sem_unlink("time");
 	sem_close(c->death);
 	sem_unlink("death");
 	free(c->pid);

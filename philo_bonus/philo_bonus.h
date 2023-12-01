@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/11/30 19:11:25 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/01 09:12:22 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_cave
 	sem_t	*forks;
 	sem_t	*write;
 	sem_t	*init;
+	sem_t	*time;
 	sem_t	*death;
 }	t_cave;
 
@@ -54,6 +55,8 @@ void	init_struct(t_cave *c, t_philo *ph, int argc, char **argv);
 
 /*------life.c---------*/
 void	ph_life(t_cave *c, t_philo *ph);
+void	single_philo(t_philo *ph);
+void	*ft_routine(void *param);
 
 /*------routine.c------*/
 void	ft_philo(t_philo *ph);

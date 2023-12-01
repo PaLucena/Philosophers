@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:51:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/11/30 17:12:53 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/01 11:00:38 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	init_semaphores(t_cave *c)
 	c->write = sem_open("write", O_CREAT, 0600, 1);
 	sem_unlink("init");
 	c->init = sem_open("init", O_CREAT, 0600, 0);
+	sem_unlink("time");
+	c->time = sem_open("time", O_CREAT, 0600, 1);
 	sem_unlink("death");
 	c->death = sem_open("death", O_CREAT, 0600, 0);
 }

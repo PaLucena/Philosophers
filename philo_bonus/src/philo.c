@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/01 10:37:19 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:06:05 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*ft_check_death(void *param)
 	long	check;
 
 	ph = (t_philo *)param;
-	
 	while (1)
 	{
 		sem_wait(ph->cave->time);

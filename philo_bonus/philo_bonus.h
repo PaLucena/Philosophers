@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/01 09:12:22 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:55:39 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_cave
 	sem_t	*forks;
 	sem_t	*write;
 	sem_t	*init;
-	sem_t	*time;
 	sem_t	*death;
 }	t_cave;
 
@@ -48,6 +47,7 @@ typedef struct s_philo
 	long		t_start;
 	long		t_last_meal;
 	int			meals_left;
+	sem_t		*shield;
 }	t_philo;
 
 /*------init.c---------*/
@@ -65,16 +65,13 @@ void	ft_philo(t_philo *ph);
 void	ft_die(t_philo *ph);
 void	r_think(t_philo *ph);
 void	r_sleep(t_philo *ph);
-void	r_eat(t_philo *ph);
+int		r_eat(t_philo *ph);
 
 /*------print.c--------*/
 void	print_status(t_philo *ph, char a);
 
-/*------death.c--------*/
-void	kill_them(t_cave *c);
-void	ph_death(t_cave *c);
-
 /*------utils.c--------*/
+void	own_semaphore(t_philo *ph, int mode);
 long	ft_atol(const char *str);
 bool	ft_is_number(char *str);
 long	get_time(void);

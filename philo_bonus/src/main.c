@@ -6,11 +6,23 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/11/30 19:09:35 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:44:50 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
+
+void	ph_death(t_cave *c)
+{
+	sem_close(c->forks);
+	sem_unlink("forks");
+	sem_close(c->write);
+	sem_unlink("write");
+	sem_close(c->init);
+	sem_close(c->death);
+	sem_unlink("death");
+	free(c->pid);
+}
 
 bool	check_args(int argc, char **argv)
 {
@@ -37,7 +49,6 @@ int	main(int argc, char **argv)
 	t_cave	c;
 	t_philo	ph;
 	int		i;
-	int		status;
 
 	if ((argc != 5 && argc != 6) || !check_args(argc, argv))
 	{
@@ -48,11 +59,8 @@ int	main(int argc, char **argv)
 	ph_life(&c, &ph);
 	i = -1;
 	while (++i < c.n_ph)
-	{
-		waitpid(-1, &status, 0);
-		if (status != 0)
-			kill_them(&c);
-	}
+		sem_wait(c.init);
+	sem_post(c.death);
 	ph_death(&c);
 	return (0);
 }

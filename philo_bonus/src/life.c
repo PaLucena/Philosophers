@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:01:59 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/01 09:11:51 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:59:45 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ph_life(t_cave *c, t_philo *ph)
 		{
 			ph->index = i + 1;
 			ph->t_start = get_time();
+			own_semaphore(ph, 1);
 			ft_philo(ph);
 		}
 		i++;
@@ -47,11 +48,17 @@ void	*ft_routine(void *param)
 	ph = (t_philo *)param;
 	if (ph->index > ph->cave->n_ph / 2)
 		print_status(ph, 't');
+	else if (ph->meals_left == 0)
+	{
+		ph->lock = true;
+		return (NULL);
+	}
 	while (1)
 	{
-		if (ph->meals_left == 0)
-			exit (0);
-		r_eat(ph);
+		if (r_eat(ph) == 0)
+			sem_post(ph->cave->init);
+		if (ph->lock)
+			break ;
 		r_sleep(ph);
 		r_think(ph);
 	}

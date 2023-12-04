@@ -6,11 +6,24 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:43:39 by palucena          #+#    #+#             */
-/*   Updated: 2023/10/16 22:11:06 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:29:38 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
+
+void	own_semaphore(t_philo *ph, int mode)
+{
+	char	str[2];
+
+	str[0] = (char)ph->index;
+	str[1] = '\0';
+	sem_unlink(str);
+	if (mode == 1)
+		ph->shield = sem_open(str, O_CREAT, S_IRWXU, 1);
+	else if (mode == 2)
+		sem_close(ph->shield);
+}
 
 long	ft_atol(const char *str)
 {

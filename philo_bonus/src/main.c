@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:39:20 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/04 16:44:50 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:05:42 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,27 @@
 
 void	ph_death(t_cave *c)
 {
+	int	status;
+	int	i;
+
+	i = 0;
+	while (++i <= c->n_ph)
+	{
+		waitpid(-1, &status, 0);
+		if (status != 0)
+		{
+			i = -1;
+			while (++i < c->n_ph)
+				kill(c->pid[i], SIGTERM);
+			break ;
+		}
+	}
 	sem_close(c->forks);
 	sem_unlink("forks");
 	sem_close(c->write);
 	sem_unlink("write");
 	sem_close(c->init);
+	sem_unlink("init");
 	sem_close(c->death);
 	sem_unlink("death");
 	free(c->pid);
@@ -48,7 +64,6 @@ int	main(int argc, char **argv)
 {
 	t_cave	c;
 	t_philo	ph;
-	int		i;
 
 	if ((argc != 5 && argc != 6) || !check_args(argc, argv))
 	{
@@ -57,10 +72,6 @@ int	main(int argc, char **argv)
 	}
 	init_struct(&c, &ph, argc, argv);
 	ph_life(&c, &ph);
-	i = -1;
-	while (++i < c.n_ph)
-		sem_wait(c.init);
-	sem_post(c.death);
 	ph_death(&c);
 	return (0);
 }

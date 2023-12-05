@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:01:59 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/04 16:59:45 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:59:53 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	single_philo(t_philo *ph)
 		exit (0);
 	sem_wait(ph->cave->forks);
 	print_status(ph, 'f');
-	ft_usleep(ph->cave->t_die, ph);
+	ft_usleep(ph->cave->t_die);
 	print_status(ph, 'd');
 }
 
@@ -53,12 +53,10 @@ void	*ft_routine(void *param)
 		ph->lock = true;
 		return (NULL);
 	}
-	while (1)
+	while (!ph->lock)
 	{
 		if (r_eat(ph) == 0)
-			sem_post(ph->cave->init);
-		if (ph->lock)
-			break ;
+			exit (0);
 		r_sleep(ph);
 		r_think(ph);
 	}

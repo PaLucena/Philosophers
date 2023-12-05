@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/04 16:55:39 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:02:32 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	*ft_routine(void *param);
 void	ft_philo(t_philo *ph);
 
 /*------day.c----------*/
-void	ft_die(t_philo *ph);
 void	r_think(t_philo *ph);
 void	r_sleep(t_philo *ph);
 int		r_eat(t_philo *ph);
@@ -75,6 +74,6 @@ void	own_semaphore(t_philo *ph, int mode);
 long	ft_atol(const char *str);
 bool	ft_is_number(char *str);
 long	get_time(void);
-void	ft_usleep(long time, t_philo *ph);
+void	ft_usleep(long time);
 
 #endif

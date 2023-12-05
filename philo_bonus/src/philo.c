@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/04 20:58:27 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:02:23 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_check_death(void *param)
 	long	check;
 
 	ph = (t_philo *)param;
-	while (1)
+	while (!ph->lock)
 	{
 		sem_wait(ph->shield);
 		check = get_time() - ph->t_last_meal;
@@ -26,15 +26,10 @@ void	*ft_check_death(void *param)
 		if (check >= ph->cave->t_die)
 		{
 			print_status(ph, 'd');
-			sem_post(ph->cave->death);
 			break ;
 		}
-		sem_wait(ph->shield);
-		if (ph->lock)
-			break ;
-		sem_post(ph->shield);
 	}
-	sem_post(ph->shield);
+	sem_post(ph->cave->death);
 	return (NULL);
 }
 
@@ -44,17 +39,16 @@ void	ft_philo(t_philo *ph)
 	pthread_t	death_check;
 
 	ph->t_last_meal = get_time();
+	sem_post(ph->cave->init);
 	if (ph->cave->n_ph == 1)
 		single_philo(ph);
-	else
+	else if (ph->meals_left != 0)
 	{
 		pthread_create(&routine, NULL, ft_routine, ph);
 		pthread_create(&death_check, NULL, ft_check_death, ph);
 		sem_wait(ph->cave->death);
-		sem_wait(ph->shield);
+		//printf("Bloqueo: %i en %ld\n", ph->index, get_time());
 		ph->lock = true;
-		sem_post(ph->shield);
-		sem_post(ph->cave->init);
 		sem_post(ph->cave->death);
 		pthread_join(routine, NULL);
 		pthread_join(death_check, NULL);

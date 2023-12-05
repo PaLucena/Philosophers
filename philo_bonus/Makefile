@@ -1,7 +1,7 @@
 NAME = philo_bonus
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
+FLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 RM = rm -rf
 
 SRC_PATH = src/

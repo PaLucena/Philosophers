@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 15:37:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/05 18:02:32 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:44:37 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ typedef struct s_cave
 {
 	int		n_ph;
 	long	t_die;
+	long	borrar;
 	long	t_eat;
 	long	t_sleep;
 	pid_t	*pid;
 	sem_t	*forks;
 	sem_t	*write;
-	sem_t	*init;
+	sem_t	*d_lock;
+	sem_t	*shield;
 	sem_t	*death;
 }	t_cave;
 
@@ -53,18 +55,16 @@ typedef struct s_philo
 /*------init.c---------*/
 void	init_struct(t_cave *c, t_philo *ph, int argc, char **argv);
 
-/*------life.c---------*/
-void	ph_life(t_cave *c, t_philo *ph);
-void	single_philo(t_philo *ph);
-void	*ft_routine(void *param);
-
 /*------routine.c------*/
+void	ph_life(t_cave *c, t_philo *ph);
 void	ft_philo(t_philo *ph);
 
-/*------day.c----------*/
-void	r_think(t_philo *ph);
+/*------routine.c----------*/
+void	r_think(t_philo *ph, bool d);
 void	r_sleep(t_philo *ph);
 int		r_eat(t_philo *ph);
+void	single_philo(t_philo *ph);
+void	*ft_routine(void *param);
 
 /*------print.c--------*/
 void	print_status(t_philo *ph, char a);

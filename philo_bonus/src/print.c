@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 12:19:53 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/05 18:51:29 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:40:06 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,8 @@ char	*sel_a(char a)
 
 void	print_status(t_philo *ph, char a)
 {
-	sem_wait(ph->shield);
+	sem_wait(ph->cave->write); 
 	if (!ph->lock)
-	{
-		sem_post(ph->shield);
-		if (a == 'd')
-			ph->lock = 1;
-		sem_wait(ph->cave->write);
 		printf("%ld %i %s\n", get_time() - ph->t_start, ph->index, sel_a(a));
-		sem_post(ph->cave->write);
-	}
-	else
-		sem_post(ph->shield);
+	sem_post(ph->cave->write);
 }

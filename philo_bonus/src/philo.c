@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 17:22:51 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/08 19:01:25 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/09 13:11:23 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,26 @@ void	ph_life(t_cave *c, t_philo *ph)
 void	*ft_check_death(void *param)
 {
 	t_philo	*ph;
-	long	check;
 
 	ph = (t_philo *)param;
-	while (!ph->lock)
+	while (1)
 	{
 		sem_wait(ph->shield);
-		check = get_time() - ph->t_last_meal;
-		sem_post(ph->shield);
-		if (check >= ph->cave->t_die)
+		if (get_time() - ph->t_last_meal >= ph->cave->t_die)
 		{
+			sem_post(ph->shield);
 			sem_wait(ph->cave->d_lock);
 			print_status(ph, 'd');
+			sem_post(ph->cave->death);
 			break ;
 		}
+		else
+			sem_post(ph->shield);
+		if (ph->lock)
+			break ;
 	}
-	sem_post(ph->cave->death);
-	sem_post(ph->cave->d_lock);
+	sem_post(ph->cave->full);
+	sem_post(ph->shield);
 	return (NULL);
 }
 
@@ -67,10 +70,13 @@ void	ft_philo(t_philo *ph)
 		pthread_create(&routine, NULL, ft_routine, ph);
 		pthread_create(&death_check, NULL, ft_check_death, ph);
 		sem_wait(ph->cave->death);
+		sem_wait(ph->shield);
 		ph->lock = true;
+		sem_post(ph->shield);
 		sem_post(ph->cave->death);
 		pthread_join(routine, NULL);
 		pthread_join(death_check, NULL);
+		sem_post(ph->cave->d_lock);
 	}
 	own_semaphore(ph, 2);
 	exit (0);

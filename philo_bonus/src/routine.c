@@ -6,7 +6,7 @@
 /*   By: palucena <palucena@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:50:27 by palucena          #+#    #+#             */
-/*   Updated: 2023/12/06 19:32:42 by palucena         ###   ########.fr       */
+/*   Updated: 2023/12/09 13:09:17 by palucena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	r_sleep(t_philo *ph)
 	ft_usleep(ph->cave->t_sleep);
 }
 
-int	r_eat(t_philo *ph)
+void	r_eat(t_philo *ph)
 {
 	sem_wait(ph->cave->forks);
 	print_status(ph, 'f');
@@ -44,10 +44,11 @@ int	r_eat(t_philo *ph)
 	ph->t_last_meal = get_time();
 	sem_post(ph->shield);
 	ph->meals_left--;
+	if (ph->meals_left == 0)
+		sem_post(ph->cave->full);
 	ft_usleep(ph->cave->t_eat);
 	sem_post(ph->cave->forks);
 	sem_post(ph->cave->forks);
-	return (ph->meals_left);
 }
 
 void	single_philo(t_philo *ph)
@@ -67,12 +68,17 @@ void	*ft_routine(void *param)
 	ph = (t_philo *)param;
 	if (ph->index % 2)
 		r_think(ph, 0);
-	while (!ph->lock)
+	while (1)
 	{
-		if (r_eat(ph) == 0)
+		r_eat(ph);
+		sem_wait(ph->shield);
+		if (ph->lock)
 			break ;
+		sem_post(ph->shield);
 		r_sleep(ph);
 		r_think(ph, 1);
 	}
+	ph->lock = true;
+	sem_post(ph->shield);
 	return (NULL);
 }

@@ -3,6 +3,7 @@
 
 <h2>Description</h2>
 <p><strong>Philosophers</strong> is a project from the 42 cursus that involves solving the classic "Dining Philosophers" problem. The main objective is to understand concurrency, process synchronization, and the challenges of deadlock and starvation in concurrent programming. The project requires implementing a simulation of philosophers dining together, sharing forks, and avoiding conflicts.</p>
+<img src"https://github.com/PaLucena/Philosophers/blob/main/img/philo.png">
 
 <h2>Table of Contents</h2>
 <ul>
